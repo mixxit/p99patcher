@@ -1,0 +1,8 @@
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\bin\Release\P99Patcher.exe
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\bin\Release\P99Patcher.pdb
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Release\ResolveAssemblyReference.cache
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Release\P99Patcher.frmMain.resources
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Release\P99Patcher.Properties.Resources.resources
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Release\P99Patcher.csproj.GenerateResource.Cache
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Release\P99Patcher.exe
+C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Release\P99Patcher.pdb
