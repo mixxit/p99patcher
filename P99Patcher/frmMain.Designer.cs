@@ -50,7 +50,7 @@
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(99, 25);
             this.btnPlay.TabIndex = 0;
-            this.btnPlay.Text = "Play";
+            this.btnPlay.Text = "Patch";
             this.btnPlay.UseVisualStyleBackColor = false;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
@@ -114,7 +114,6 @@
             this.txtPatchNotes.Location = new System.Drawing.Point(329, 130);
             this.txtPatchNotes.Multiline = true;
             this.txtPatchNotes.Name = "txtPatchNotes";
-            this.txtPatchNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtPatchNotes.Size = new System.Drawing.Size(225, 161);
             this.txtPatchNotes.TabIndex = 4;
             this.txtPatchNotes.Text = "Click play to launch Everquest";

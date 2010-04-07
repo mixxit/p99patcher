@@ -5,9 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
+using System.IO.Compression;
 using System.Diagnostics;
 
 namespace P99Patcher
@@ -28,8 +30,7 @@ namespace P99Patcher
         private Point mouseOffset;
         private bool isMouseDown = false;
 
-        private void frmMain_MouseDown(object sender,
-System.Windows.Forms.MouseEventArgs e)
+        private void frmMain_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             int xOffset;
             int yOffset;
@@ -65,8 +66,6 @@ System.Windows.Forms.MouseEventArgs e)
 
         private void LoadSettings()
         {
-            
-
             string path = Application.StartupPath + "\\settings.xml";
             try
             {
@@ -127,12 +126,10 @@ System.Windows.Forms.MouseEventArgs e)
                 try
                 {
                     FilePath = ofn.FileName;
-
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Error opening file", "File Error",
-                                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Error opening file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
 
@@ -142,8 +139,22 @@ System.Windows.Forms.MouseEventArgs e)
                 {
                     string oldpath = FilePath;
                     string newpath = oldpath.Replace("eqgame.exe", "eqhost.txt");
-                    File.Delete(newpath);
-                    File.Copy(Application.StartupPath + "\\eqhost.txt", newpath, true);
+                    try
+                    {
+                        File.Delete(newpath);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Error deleting old eqhost, I have no permission! Did you run me as an administrator?");
+                    }
+                    try
+                    {
+                        File.Copy(Application.StartupPath + "\\eqhost.txt", newpath, true);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Error copying new eqhost file! No permission! Did you forget to run this application as an administrator?");
+                    }
                     this.EQPath = oldpath;
                     SaveXML();
                 }
@@ -191,7 +202,7 @@ System.Windows.Forms.MouseEventArgs e)
             }
             catch
             {
-                MessageBox.Show("Error writing file, is it read only?");
+                MessageBox.Show("Error writing file in SaveXML, did you forget to run this application as an administrator?");
             }
 
         }
@@ -209,14 +220,169 @@ System.Windows.Forms.MouseEventArgs e)
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
+            // Begin the patcher process
+
+            if (Patch())
+            {
+
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = "eqgame.exe";
+                string oldpath = this.EQPath;
+                string justdir = oldpath.Replace("\\eqgame.exe", "");
+                startInfo.WorkingDirectory = @justdir;
+                startInfo.Arguments = "patchme";
+                Process process;
+                process = Process.Start(startInfo);
+            }
+        }
+
+        private void BackupEQFile(string file)
+        {
+
+            string path = this.EQPath.Replace("eqgame.exe", "");
+
+            string oldpath = path + "\\" + file;
+            string newpath = path + "\\" + file + ".backup";
+
+            if (!File.Exists(newpath))
+            {
+                try
+                {
+                    File.Copy(oldpath, newpath, true);
+                }
+                catch
+                {
+                    MessageBox.Show("Error backing up file. Did you run the patcher as an administrator?");
+                }
+            }
+            else
+            {
+                // don't copy it, they already have a backup
+            }
+        }
+
+        private void DeleteEQFile(string file)
+        {
+
+            string path = this.EQPath.Replace("eqgame.exe", "");
+            string oldpath = path + "\\" + file;
+            string newpath = path + "\\" + file + ".backup";
+
+            if (File.Exists(newpath))
+            {
+                try
+                {
+                    File.Delete(oldpath);
+                }
+                catch
+                {
+                    MessageBox.Show("Error deleting file. Did you run the patcher as an administrator?");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Refused to delete file as a backup did not exist.");
+            }
+        }
+        
+        private void MoveMidi()
+        {
+            
+            BackupEQFile("eqtheme.mp3");
+            BackupEQFile("combattheme1.mp3");
+            BackupEQFile("combattheme2.mp3");
+            BackupEQFile("deaththeme.mp3");
+
+            DeleteEQFile("eqtheme.mp3");
+            DeleteEQFile("combattheme1.mp3");
+            DeleteEQFile("combattheme2.mp3");
+            DeleteEQFile("deaththeme.mp3");
+        }
+
+        private void MoveFiles()
+        {
+            BackupEQFile("arena.eqg");
+            BackupEQFile("arena_EnvironmentEmitters.txt");
+            BackupEQFile("lavastorm.eqg");
+            BackupEQFile("nektulos.eqg");
+            BackupEQFile("Nektulos_EnvironmentEmitters.txt");
+
+            DeleteEQFile("arena.eqg");
+            DeleteEQFile("arena_EnvironmentEmitters.txt");
+            DeleteEQFile("lavastorm.eqg");
+            DeleteEQFile("nektulos.eqg");
+            DeleteEQFile("Nektulos_EnvironmentEmitters.txt");
+        }
+
+        private bool Patch()
+        {
+            btnPlay.Text = "Patching";
+            btnPlay.Enabled = false;
+
+            txtPatchNotes.Text = "Starting Patching from P99\r\n";
+            txtPatchNotes.Text += "\r\n";
+            txtPatchNotes.Text += "Moving incorrect EQGs and Emitters";
+            MoveFiles();
+            txtPatchNotes.Text += "\r\n";
+            txtPatchNotes.Text += "Restoring older MIDI files";
+            MoveMidi();
+            txtPatchNotes.Text += "\r\n";
+            txtPatchNotes.Text += "Comparing ZIP Cache\r\n";
+
+            ConditionalGet getChange = new ConditionalGet("http://www.project1999.org/files/eqchanges.zip", "eqchanges.zip", Application.StartupPath);
+            txtPatchNotes.Text += "Downloading eqchanges.zip\r\n";
+            if (getChange.Download())
+            {
+                InstallEQChanges();
+                txtPatchNotes.Text += "Installing eqchanges.zip\r\n";
+                txtPatchNotes.Text += "\r\n";
+            }
+            else
+            {
+                txtPatchNotes.Text += "eqchanges.zip - OK\r\n";
+                txtPatchNotes.Text += "\r\n";
+            }
+
+            getChange = new ConditionalGet("http://www.project1999.org/files/uichanges.zip", "uichanges.zip", Application.StartupPath);
+            txtPatchNotes.Text += "Downloading uichanges.zip\r\n";
+            if (getChange.Download())
+            {
+                InstallUIChanges();
+                txtPatchNotes.Text += "Installing uichanges.zip\r\n";
+                txtPatchNotes.Text += "\r\n";
+            }
+            else
+            {
+                txtPatchNotes.Text += "uichanges.zip - OK\r\n";
+                txtPatchNotes.Text += "\r\n";
+            }
+           
+            btnPlay.Enabled = true;
+            btnPlay.Text = "Play";
+
+            return false;
+        }
+
+        private void UnZipFile(string sourceFile, string folder)
+        {
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "eqgame.exe";
+            startInfo.FileName = "7z.exe";
             string oldpath = this.EQPath;
             string justdir = oldpath.Replace("\\eqgame.exe", "");
-            startInfo.WorkingDirectory = @justdir;
-            startInfo.Arguments = "patchme";
+            startInfo.WorkingDirectory = Application.StartupPath;
+            startInfo.Arguments = "x " + sourceFile + " -y -o" + justdir + folder;
             Process process;
             process = Process.Start(startInfo);
+        }
+
+        private void InstallEQChanges()
+        {
+            UnZipFile(Application.StartupPath + "\\" + "eqchanges.zip", "");
+        }
+
+        private void InstallUIChanges()
+        {
+            UnZipFile(Application.StartupPath + "\\" + "uichanges.zip", "\\uifiles\\default");
         }
 
         private void btnOptions_Click(object sender, EventArgs e)

@@ -6,3 +6,11 @@ C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\D
 C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Debug\P99Patcher.csproj.GenerateResource.Cache
 C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Debug\P99Patcher.exe
 C:\Users\bolly\Documents\Visual Studio 2008\Projects\P99Patcher\P99Patcher\obj\Debug\P99Patcher.pdb
+C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\P99Patcher.exe
+C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\P99Patcher.pdb
+C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\P99Patcher.frmMain.resources
+C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\P99Patcher.Properties.Resources.resources
+C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\P99Patcher.csproj.GenerateResource.Cache
+C:\Users\bolly\p99patcher\P99Patcher\bin\Debug\P99Patcher.exe
+C:\Users\bolly\p99patcher\P99Patcher\bin\Debug\P99Patcher.pdb
