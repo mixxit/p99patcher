@@ -46,6 +46,6 @@ Section "" ;No components page, name is not important
   ; Put file there
   File eqhost.txt
   File P99Patcher.exe
-  File 7z.exe
+  File ICSharpCode.SharpZipLib.dll
   
 SectionEnd ; end the section

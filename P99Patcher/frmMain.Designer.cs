@@ -116,7 +116,7 @@
             this.txtPatchNotes.Name = "txtPatchNotes";
             this.txtPatchNotes.Size = new System.Drawing.Size(225, 161);
             this.txtPatchNotes.TabIndex = 4;
-            this.txtPatchNotes.Text = "Click play to launch Everquest";
+            this.txtPatchNotes.Text = "Click patch to update and launch Everquest";
             // 
             // btnMinimise
             // 

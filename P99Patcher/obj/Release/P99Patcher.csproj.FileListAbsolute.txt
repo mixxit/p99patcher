@@ -14,3 +14,4 @@ C:\Users\bolly\p99patcher\P99Patcher\obj\Release\ResolveAssemblyReference.cache
 C:\Users\bolly\p99patcher\P99Patcher\obj\Release\P99Patcher.frmMain.resources
 C:\Users\bolly\p99patcher\P99Patcher\obj\Release\P99Patcher.Properties.Resources.resources
 C:\Users\bolly\p99patcher\P99Patcher\obj\Release\P99Patcher.csproj.GenerateResource.Cache
+C:\Users\bolly\p99patcher\P99Patcher\bin\Release\ICSharpCode.SharpZipLib.dll

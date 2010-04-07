@@ -14,3 +14,4 @@ C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\P99Patcher.Properties.Resources.r
 C:\Users\bolly\p99patcher\P99Patcher\obj\Debug\P99Patcher.csproj.GenerateResource.Cache
 C:\Users\bolly\p99patcher\P99Patcher\bin\Debug\P99Patcher.exe
 C:\Users\bolly\p99patcher\P99Patcher\bin\Debug\P99Patcher.pdb
+C:\Users\bolly\p99patcher\P99Patcher\bin\Debug\ICSharpCode.SharpZipLib.dll

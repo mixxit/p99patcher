@@ -222,17 +222,22 @@ namespace P99Patcher
         {
             // Begin the patcher process
 
-            if (Patch())
+            if (btnPlay.Text == "Patch")
             {
+                Patch();
+                return;
+            }
 
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = "eqgame.exe";
-                string oldpath = this.EQPath;
-                string justdir = oldpath.Replace("\\eqgame.exe", "");
-                startInfo.WorkingDirectory = @justdir;
-                startInfo.Arguments = "patchme";
-                Process process;
-                process = Process.Start(startInfo);
+            if (btnPlay.Text == "Play")
+            {
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.FileName = "eqgame.exe";
+                    string oldpath = this.EQPath;
+                    string justdir = oldpath.Replace("\\eqgame.exe", "");
+                    startInfo.WorkingDirectory = @justdir;
+                    startInfo.Arguments = "patchme";
+                    Process process;
+                    process = Process.Start(startInfo);
             }
         }
 
@@ -356,7 +361,9 @@ namespace P99Patcher
                 txtPatchNotes.Text += "uichanges.zip - OK\r\n";
                 txtPatchNotes.Text += "\r\n";
             }
-           
+
+            MessageBox.Show("Patch complete - Click play to begin!");
+            
             btnPlay.Enabled = true;
             btnPlay.Text = "Play";
 
@@ -365,14 +372,9 @@ namespace P99Patcher
 
         private void UnZipFile(string sourceFile, string folder)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "7z.exe";
-            string oldpath = this.EQPath;
-            string justdir = oldpath.Replace("\\eqgame.exe", "");
-            startInfo.WorkingDirectory = Application.StartupPath;
-            startInfo.Arguments = "x " + sourceFile + " -y -o" + justdir + folder;
-            Process process;
-            process = Process.Start(startInfo);
+            string eqfolderpath = this.EQPath.Replace("eqgame.exe", "");
+
+            ZipUtil.UnZipFiles(sourceFile, eqfolderpath + folder, "", false);
         }
 
         private void InstallEQChanges()
